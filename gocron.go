@@ -33,6 +33,7 @@ import (
 
 // Time location, default set by the time.Local (*time.Location)
 var loc = time.Local
+var runStatus bool
 
 // ChangeLoc change default the time location
 func ChangeLoc(newLocation *time.Location) {
@@ -527,6 +528,10 @@ func (s *Scheduler) Clear() {
 // Start all the pending jobs
 // Add seconds ticker
 func (s *Scheduler) Start() chan bool {
+	if runStatus {
+	    return nil
+	}
+	runStatus=true
 	stopped := make(chan bool, 1)
 	ticker := time.NewTicker(1 * time.Second)
 
